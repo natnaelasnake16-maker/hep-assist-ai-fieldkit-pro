@@ -191,7 +191,7 @@ export default function Sidebar({ activeTab, setActiveTab, currentRole }: Sideba
             <span>Safety Protocol Active</span>
           </div>
           <p className="leading-relaxed font-sans text-[11px] text-[#475569]">
-            This is an offline-ready digital prototype. All AI outputs must be clinically cross-grounded using certified on-device IMNCI guidelines.
+            Decision support only. Confirm every recommendation against approved IMNCI guidance and local escalation protocol before treatment or referral.
           </p>
         </div>
       ) : (

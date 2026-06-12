@@ -98,7 +98,7 @@ export default function Header() {
               HEP Assist <span className="text-blue-700 font-extrabold">AI</span>
             </h1>
             <span className="inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-bold bg-slate-100 text-slate-700 border border-slate-200 uppercase tracking-wider">
-              FieldKit Pro v1.5
+              Clinical FieldKit
             </span>
           </div>
           <p className="text-[11px] text-[#475569] font-sans mt-1 leading-none hidden sm:block font-medium">
@@ -124,14 +124,14 @@ export default function Header() {
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-250">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
               <Wifi className="w-3.5 h-3.5 text-emerald-600" />
-              <span className="hidden sm:inline">MOH Cloud API Connected</span>
+              <span className="hidden sm:inline">Clinical API Connected</span>
               <span className="sm:hidden">Connected</span>
             </span>
           ) : (
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700 border border-slate-205">
               <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
               <WifiOff className="w-3.5 h-3.5 text-slate-500" />
-              <span className="hidden sm:inline">On-Prem Sandbox Cache</span>
+              <span className="hidden sm:inline">Local Clinical Cache</span>
               <span className="sm:hidden">Local</span>
             </span>
           )}
@@ -156,7 +156,7 @@ export default function Header() {
               {prefs.simulateOffline 
                 ? 'Local Rules Engine' 
                 : isOnline 
-                  ? 'Gemini-3.5-Flash (Pro Live)' 
+                  ? 'Hosted Clinical Inference' 
                   : 'Ollama: qwen2.5:1.5b'
               }
             </span>

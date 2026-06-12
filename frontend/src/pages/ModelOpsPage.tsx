@@ -91,7 +91,7 @@ export default function ModelOpsPage() {
                     : 'bg-slate-50 hover:bg-slate-100 text-slate-500 border-slate-200'
                 }`}
               >
-                Gemini Cloud API
+                Hosted Inference
               </button>
 
               <button
@@ -120,7 +120,7 @@ export default function ModelOpsPage() {
               {prefs.simulateOffline ? (
                 <option value="qwen2.5:1.5b">Ollama: qwen2.5:1.5b-instruct-q4</option>
               ) : (
-                <option value="gemini-3.5-flash">Google: gemini-3.5-flash (Grounded RAG)</option>
+                <option value="gemini-3.5-flash">Hosted clinical model (grounded retrieval)</option>
               )}
             </select>
           </div>

@@ -32,6 +32,17 @@ export default function App() {
     return unsubscribe;
   }, []);
 
+  useEffect(() => {
+    const roleLabel = {
+      HEW: 'HEW Portal',
+      Supervisor: 'Supervisor Desk',
+      MERL: 'MERL Analytics',
+      AI_Engineer: 'AI Ops',
+    }[prefs.role];
+
+    document.title = `HEP Assist AI FieldKit Pro · ${roleLabel}`;
+  }, [prefs.role]);
+
   // Helper mapping tabs to their specific file pages
   const renderCurrentPage = () => {
     switch (activeTab) {

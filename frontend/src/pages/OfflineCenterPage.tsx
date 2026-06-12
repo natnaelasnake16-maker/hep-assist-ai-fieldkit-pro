@@ -218,8 +218,8 @@ export default function OfflineCenterPage() {
         
         <div className="flex flex-col sm:flex-row items-center gap-6 justify-between">
           <div className="space-y-1 text-center sm:text-left font-sans">
-            <h4 className="font-extrabold text-slate-900">Kebele post sandbox Allocation (IndexedDB Storage)</h4>
-            <p className="text-slate-450 font-medium text-slate-400 leading-none mt-1">Preserved offline content index footprint.</p>
+            <h4 className="font-extrabold text-slate-900">Kebele device cache allocation (IndexedDB Storage)</h4>
+            <p className="text-slate-450 font-medium text-slate-400 leading-none mt-1">Current offline guidance, queue, and case cache footprint.</p>
           </div>
 
           <div className="flex items-center gap-3.5 w-full sm:w-80 font-mono font-bold text-slate-450 select-none">
