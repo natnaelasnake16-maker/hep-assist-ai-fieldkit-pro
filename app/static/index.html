@@ -44,7 +44,7 @@
           <label>Pregnancy status<select id="pregnancy"><option value="">N/A</option><option value="pregnant">Pregnant</option><option value="postpartum">Postpartum</option></select></label>
           <label>Symptoms comma-separated<input id="symptoms" placeholder="fever, fast breathing" /></label>
           <div id="urgencyCard" class="urgency routine"><strong>Urgency: not assessed</strong><span>Run the assistant to classify.</span></div>
-          <div class="safety-box"><h3>Safety & data</h3><p>PII redaction: <strong id="piiState">Ready</strong></p><p>Supervisor review: <strong id="reviewState">Ready</strong></p><p>Provider: <strong id="providerState">offline_rules</strong></p></div>
+          <div class="safety-box"><h3>Safety & data</h3><p>PII redaction: <strong id="piiState">Ready</strong></p><p>Supervisor review: <strong id="reviewState">Ready</strong></p><p>Provider: <strong id="providerState">ollama:qwen2.5:1.5b</strong></p></div>
         </div>
       </section>
 
@@ -55,7 +55,7 @@
       <section id="reviews" class="tab panel"><h2>Supervisor Review Queue</h2><div id="reviewItems" class="cards"></div></section>
       <section id="metrics" class="tab panel"><h2>Evaluation & Metrics</h2><button id="evalBtn">Run Evaluation</button><pre id="metricsOut"></pre></section>
       <section id="integrations" class="tab panel"><h2>Integration Preview</h2><p>Preview DHIS2 and IVR payloads without sending real patient data.</p><button id="packetBtn">Download offline field packet JSON</button><pre id="integrationOut"></pre></section>
-      <section id="settings" class="tab panel"><h2>Model Settings</h2><p>The backend supports <code>AI_PROVIDER=offline_rules</code>, <code>ollama</code>, and <code>openai_compatible</code>. Change it in <code>.env</code> and restart.</p><pre id="healthOut"></pre></section>
+      <section id="settings" class="tab panel"><h2>Model Settings</h2><p>The backend runs on <code>AI_PROVIDER=ollama</code> with <code>OLLAMA_MODEL=qwen2.5:1.5b</code>. Change it in <code>.env</code> and restart.</p><pre id="healthOut"></pre></section>
     </main>
   </div>
   <script src="/static/app.js"></script>

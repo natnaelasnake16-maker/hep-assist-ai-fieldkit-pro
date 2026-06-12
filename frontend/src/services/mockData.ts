@@ -452,7 +452,7 @@ export const initialFeedbackList: FeedbackItem[] = [
     language: 'en',
     location: 'Asayita Rural Post',
     createdAt: '2026-06-12T02:15:00-07:00',
-    modelUsed: 'Gemini 3.5 Flash Grounded',
+    modelUsed: 'Ollama: qwen2.5:1.5b',
     isReviewed: true
   },
   {
@@ -464,7 +464,7 @@ export const initialFeedbackList: FeedbackItem[] = [
     language: 'am',
     location: 'Metehara Health Post',
     createdAt: '2026-06-12T02:25:00-07:00',
-    modelUsed: 'Gemini 3.1 Pro (Thinking Mode)',
+    modelUsed: 'Ollama: qwen2.5:1.5b',
     isReviewed: false
   }
 ];

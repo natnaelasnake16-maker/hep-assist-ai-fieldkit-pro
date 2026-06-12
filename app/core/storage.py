@@ -10,9 +10,9 @@ DB_PATH = RUNTIME_DIR / "fieldkit.db"
 STATE_PATH = RUNTIME_DIR / "state"
 STATE_PATH.mkdir(exist_ok=True)
 DEFAULT_MODEL_CONFIG = {
-    "provider": "Offline_Rules",
+    "provider": "Ollama_Local",
     "baseUrl": "http://127.0.0.1:11434",
-    "modelName": "llama3.1:8b",
+    "modelName": "qwen2.5:1.5b",
     "temperature": 0.15,
     "maxTokens": 700,
     "timeoutSeconds": 20,

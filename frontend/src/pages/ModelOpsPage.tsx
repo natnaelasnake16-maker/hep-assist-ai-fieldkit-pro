@@ -91,7 +91,7 @@ export default function ModelOpsPage() {
                     : 'bg-slate-50 hover:bg-slate-100 text-slate-500 border-slate-200'
                 }`}
               >
-                Hosted Inference
+                Clinical Runtime
               </button>
 
               <button
@@ -113,15 +113,11 @@ export default function ModelOpsPage() {
           <div className="space-y-1.5 pt-1 select-none">
             <label className="text-xs font-bold text-slate-650">Active Model Profile</label>
             <select
-              value={prefs.simulateOffline ? 'qwen2.5:1.5b' : 'gemini-3.5-flash'}
+              value={'qwen2.5:1.5b'}
               disabled
               className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-600 font-bold font-mono focus:outline-none"
             >
-              {prefs.simulateOffline ? (
-                <option value="qwen2.5:1.5b">Ollama: qwen2.5:1.5b-instruct-q4</option>
-              ) : (
-                <option value="gemini-3.5-flash">Hosted clinical model (grounded retrieval)</option>
-              )}
+              <option value="qwen2.5:1.5b">Ollama: qwen2.5:1.5b</option>
             </select>
           </div>
 
