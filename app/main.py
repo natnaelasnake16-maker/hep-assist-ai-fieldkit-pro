@@ -48,6 +48,13 @@ def assistant_index():
         return FileResponse(FRONTEND_DIST_DIR / "index.html")
     return FileResponse(STATIC_DIR / "index.html")
 
+@app.get("/favicon.svg")
+def frontend_favicon():
+    favicon = FRONTEND_DIST_DIR / "favicon.svg"
+    if favicon.exists():
+        return FileResponse(favicon)
+    return FileResponse(STATIC_DIR / "favicon.ico")
+
 @app.get("/api/health")
 def health():
     return {
