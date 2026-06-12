@@ -1,0 +1,31 @@
+services:
+  fieldkit-api:
+    build: .
+    container_name: hep-fieldkit-api
+    ports:
+      - "8000:8000"
+    environment:
+      - AI_PROVIDER=${AI_PROVIDER:-offline_rules}
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-llama3.1:8b}
+      - DATABASE_URL=sqlite:///./fieldkit.db
+    volumes:
+      - fieldkit_data:/app/runtime
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  ollama:
+    image: ollama/ollama:latest
+    profiles: ["ollama"]
+    container_name: hep-fieldkit-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+volumes:
+  fieldkit_data:
+  ollama_data:

@@ -1,0 +1,3 @@
+{"instruction": "Classify urgency for a child with fever and fast breathing.", "input": "Age 36 months, RR 56, fever.", "output": "Same-day: assess danger signs, manage suspected pneumonia according to protocol, advise return immediately if worse."}
+{"instruction": "Respond in Amharic to a HEW asking about fever and fast breathing.", "input": "ልጅ ትኩሳት አለው እና በፍጥነት ይተነፍሳል።", "output": "በዛሬው ቀን ይገምግሙ፤ የአደጋ ምልክቶችን ይፈትሹ፤ የአካባቢ ፕሮቶኮልን ይከተሉ።"}
+{"instruction": "Classify urgency for pregnancy bleeding.", "input": "Pregnant client reports vaginal bleeding and dizziness.", "output": "Emergency: arrange urgent referral and notify supervisor according to maternal danger-sign protocol."}

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HEP Assist AI FieldKit Pro</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="logo">✚</span><div><strong>HEP Assist AI</strong><small>FieldKit Pro</small></div></div>
+      <nav>
+        <button class="nav active" data-tab="assistant">💬 Assistant</button>
+        <button class="nav" data-tab="protocols">🔎 Protocol Search</button>
+        <button class="nav" data-tab="reviews">🧑‍⚕️ Review Queue <span id="reviewBadge">0</span></button>
+        <button class="nav" data-tab="metrics">📊 Metrics</button>
+        <button class="nav" data-tab="integrations">🔌 Integrations</button>
+        <button class="nav" data-tab="settings">⚙️ Settings</button>
+      </nav>
+      <div class="hew-card"><div class="avatar">HEW</div><div><strong>Demo HEW</strong><small>Offline-ready mode</small></div></div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <div><h1>HEP Assist AI FieldKit Pro</h1><p>LangGraph-style agent + Vector RAG + Graph RAG + offline field workflow</p></div>
+        <div class="badges"><span class="badge green">● Offline Ready</span><span class="badge blue">Low Bandwidth</span><span id="healthBadge" class="badge">Checking API</span><select id="language"><option value="en">English</option><option value="am">አማርኛ</option><option value="auto">Auto</option></select></div>
+      </header>
+
+      <section id="assistant" class="tab active-tab grid-two">
+        <div class="panel chat-panel">
+          <div class="panel-title"><h2>AI Assistant</h2><small>Protocol-grounded decision support for trained HEWs</small></div>
+          <div id="chatLog" class="chat-log">
+            <div class="msg assistant"><strong>Assistant</strong><p>Enter a case or use the structured intake. I will retrieve protocol evidence, check danger signs through Graph RAG, and route high-risk cases to supervisor review.</p></div>
+          </div>
+          <div class="quick-row"><button data-example="A 3 year old child has fever and fast breathing. What should the HEW do?">Child fever + fast breathing</button><button data-example="Pregnant mother has bleeding and dizziness">Pregnancy bleeding</button><button data-example="ልጅ ትኩሳት አለው እና በፍጥነት ይተነፍሳል።">Amharic demo</button></div>
+          <div class="composer"><button id="micBtn" title="Browser speech input">🎙️</button><textarea id="message" placeholder="Ask a clinical question..."></textarea><button id="sendBtn">Send</button></div>
+        </div>
+
+        <div class="panel intake-panel">
+          <div class="panel-title"><h2>Structured Case Intake</h2><button id="clearCase">Clear</button></div>
+          <label>Age in months<input id="ageMonths" type="number" placeholder="36" /></label>
+          <label>Temperature °C<input id="temperature" type="number" step="0.1" placeholder="39.2" /></label>
+          <label>Respiratory rate/min<input id="respRate" type="number" placeholder="56" /></label>
+          <label>Pregnancy status<select id="pregnancy"><option value="">N/A</option><option value="pregnant">Pregnant</option><option value="postpartum">Postpartum</option></select></label>
+          <label>Symptoms comma-separated<input id="symptoms" placeholder="fever, fast breathing" /></label>
+          <div id="urgencyCard" class="urgency routine"><strong>Urgency: not assessed</strong><span>Run the assistant to classify.</span></div>
+          <div class="safety-box"><h3>Safety & data</h3><p>PII redaction: <strong id="piiState">Ready</strong></p><p>Supervisor review: <strong id="reviewState">Ready</strong></p><p>Provider: <strong id="providerState">offline_rules</strong></p></div>
+        </div>
+      </section>
+
+      <section id="protocols" class="tab panel">
+        <h2>Protocol Search</h2><div class="search-row"><input id="protocolQuery" placeholder="Search protocol evidence..."/><button id="protocolBtn">Search</button></div><div id="protocolResults" class="cards"></div>
+      </section>
+
+      <section id="reviews" class="tab panel"><h2>Supervisor Review Queue</h2><div id="reviewItems" class="cards"></div></section>
+      <section id="metrics" class="tab panel"><h2>Evaluation & Metrics</h2><button id="evalBtn">Run Evaluation</button><pre id="metricsOut"></pre></section>
+      <section id="integrations" class="tab panel"><h2>Integration Preview</h2><p>Preview DHIS2 and IVR payloads without sending real patient data.</p><button id="packetBtn">Download offline field packet JSON</button><pre id="integrationOut"></pre></section>
+      <section id="settings" class="tab panel"><h2>Model Settings</h2><p>The backend supports <code>AI_PROVIDER=offline_rules</code>, <code>ollama</code>, and <code>openai_compatible</code>. Change it in <code>.env</code> and restart.</p><pre id="healthOut"></pre></section>
+    </main>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
