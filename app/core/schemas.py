@@ -22,6 +22,7 @@ class ChatRequest(BaseModel):
     case_context: Optional[CaseContext] = None
     user_role: str = "HEW"
     session_id: Optional[str] = None
+    case_snapshot: Optional[Dict[str, Any]] = None
 
 class EvidenceChunk(BaseModel):
     id: str
@@ -61,6 +62,7 @@ class ChatResponse(BaseModel):
 
 class FeedbackRequest(BaseModel):
     session_id: Optional[str] = None
+    case_snapshot: Optional[Dict[str, Any]] = None
     rating: int = Field(ge=1, le=5)
     message: str = Field(min_length=1, max_length=2000)
     note: Optional[str] = None

@@ -52,6 +52,21 @@ class InternalWorkflowRunner:
         ]:
             state = node(state)
         state.latency_ms = int((time.perf_counter() - start) * 1000)
+        response_payload = {
+            "answer": state.answer,
+            "language": state.language,
+            "urgency": state.urgency,
+            "recommended_actions": state.actions,
+            "missing_questions": state.missing_questions,
+            "evidence": [e.model_dump() for e in state.evidence],
+            "graph_findings": [g.model_dump() for g in state.graph_findings],
+            "safety": state.safety.model_dump(),
+            "model_provider": state.model_provider,
+            "prompt_version": state.prompt_version,
+            "latency_ms": state.latency_ms,
+            "review_required": state.review_required,
+            "sanitized_message": state.sanitized_message,
+        }
         log_interaction(
             state.request.session_id,
             state.sanitized_message,
@@ -60,6 +75,7 @@ class InternalWorkflowRunner:
             state.review_required,
             state.latency_ms,
             state.safety.model_dump(),
+            response_payload,
         )
         return ChatResponse(
             answer=state.answer,
@@ -191,6 +207,21 @@ class InternalWorkflowRunner:
                     "urgency": state.urgency,
                     "safety": state.safety.model_dump(),
                     "evidence_ids": [e.id for e in state.evidence],
+                    "case_snapshot": state.request.case_snapshot,
+                    "response_snapshot": {
+                        "answer": state.answer,
+                        "language": state.language,
+                        "urgency": state.urgency,
+                        "recommended_actions": state.actions,
+                        "missing_questions": state.missing_questions,
+                        "evidence": [e.model_dump() for e in state.evidence],
+                        "graph_findings": [g.model_dump() for g in state.graph_findings],
+                        "safety": state.safety.model_dump(),
+                        "model_provider": state.model_provider,
+                        "prompt_version": state.prompt_version,
+                        "latency_ms": state.latency_ms,
+                        "review_required": state.review_required,
+                    },
                 },
             )
         return state
