@@ -1,0 +1,6 @@
+{
+  "name": "HEP Assist AI FieldKit Pro",
+  "description": "Offline-first AI decision-support with structured clinical intake, dual-language capabilities, supervisor-in-the-loop triggers, models performance evaluators, and system ops for rural healthcare workers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

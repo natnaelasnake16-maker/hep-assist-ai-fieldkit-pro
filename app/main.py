@@ -26,7 +26,11 @@ app.add_middleware(
 )
 
 STATIC_DIR = Path(__file__).parent / "static"
+FRONTEND_DIST_DIR = Path(__file__).resolve().parent.parent / "frontend" / "dist"
+FRONTEND_ASSETS_DIR = FRONTEND_DIST_DIR / "assets"
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+if FRONTEND_ASSETS_DIR.exists():
+    app.mount("/assets", StaticFiles(directory=FRONTEND_ASSETS_DIR), name="frontend-assets")
 
 @app.on_event("startup")
 def startup() -> None:
@@ -34,6 +38,14 @@ def startup() -> None:
 
 @app.get("/")
 def index():
+    if (FRONTEND_DIST_DIR / "index.html").exists():
+        return FileResponse(FRONTEND_DIST_DIR / "index.html")
+    return FileResponse(STATIC_DIR / "index.html")
+
+@app.get("/assistant")
+def assistant_index():
+    if (FRONTEND_DIST_DIR / "index.html").exists():
+        return FileResponse(FRONTEND_DIST_DIR / "index.html")
     return FileResponse(STATIC_DIR / "index.html")
 
 @app.get("/api/health")
