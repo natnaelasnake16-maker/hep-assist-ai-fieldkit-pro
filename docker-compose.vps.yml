@@ -1,0 +1,23 @@
+services:
+  fieldkit-api:
+    build: .
+    container_name: hep-fieldkit-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    networks:
+      - apps-edge
+      - ai-stack
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+networks:
+  apps-edge:
+    external: true
+    name: apps-edge
+  ai-stack:
+    external: true
+    name: ai-stack
