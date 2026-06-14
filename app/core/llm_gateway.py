@@ -91,17 +91,19 @@ class OllamaLLM(BaseLLMProvider):
         action_lines = [f"- {a}" for a in actions[:4]]
         if language == "am":
             return (
-                "Respond in simple Amharic for a trained Health Extension Worker. "
+                "Respond ONLY in Amharic script for a trained Health Extension Worker. "
+                "Do not use English sentences except unavoidable clinical abbreviations. "
                 "Do not invent diagnosis. Keep it short and action-first. "
                 f"Urgency: {urgency}.\n"
                 f"Graph findings:\n{chr(10).join(finding_lines) or '- none'}\n"
                 f"Actions:\n{chr(10).join(action_lines) or '- collect missing information'}\n"
                 f"Evidence:\n{chr(10).join(evidence_lines) or '- local protocol packet'}\n"
-                "Write: short triage summary, immediate actions, caregiver advice, and referral warning if needed."
+                "Use these section headings exactly: የአደጋ ደረጃ ማጠቃለያ, አሁን የሚደረጉ እርምጃዎች, ለእንክብካቤ ሰጪ ምክር, የሪፈራል ማስጠንቀቂያ."
             )
         target_language = "plain English" if language == "en" else f"the requested language ({language})"
         return (
-            f"Respond for a trained Health Extension Worker in {target_language}. "
+            f"Respond ONLY in {target_language} for a trained Health Extension Worker. "
+            "Do not fall back to English unless the requested language is impossible. "
             "Do not invent diagnoses. Keep it under 160 words and action-first. "
             f"Urgency: {urgency}.\n"
             f"Graph findings:\n{chr(10).join(finding_lines) or '- none'}\n"

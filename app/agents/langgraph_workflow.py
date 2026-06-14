@@ -277,6 +277,14 @@ class InternalWorkflowRunner:
 
     def _build_triage_summary(self, state: AgentState) -> str:
         finding = state.graph_findings[0].reason if state.graph_findings else "No protocol-triggered danger sign was matched."
+        if state.language == "am":
+            if state.urgency == "emergency":
+                return f"ወዲያውኑ ሪፈራል ያስፈልጋል ምክንያቱም {finding.lower()}"
+            if state.urgency == "same_day":
+                return f"በዛሬው ቀን ክሊኒካዊ እርምጃ ያስፈልጋል ምክንያቱም {finding.lower()}"
+            if state.missing_questions:
+                return "የመጨረሻ ምክር ከመስጠት በፊት ተጨማሪ መረጃ ያስፈልጋል።"
+            return f"መደበኛ ክትትል ይበቃል ምክንያቱም {finding.lower()}"
         if state.urgency == "emergency":
             return f"Emergency referral is required now because {finding.lower()}"
         if state.urgency == "same_day":
@@ -286,6 +294,14 @@ class InternalWorkflowRunner:
         return f"Routine follow-up is reasonable because {finding.lower()}"
 
     def _build_caregiver_advice(self, state: AgentState) -> str:
+        if state.language == "am":
+            if state.urgency == "emergency":
+                return "ለእንክብካቤ ሰጪው አሁን እንዲሄድ፣ ታካሚውን እንዲያሞቁና እንዲከታተሉ ይንገሩ፤ መተንፈስ ከባድ ከሆነ፣ መመገብ ከቆመ፣ ንቅጥቅጥ ከተፈጠረ ወይም ንቃት ከቀነሰ ወዲያውኑ እንዲመለሱ ያሳስቡ።"
+            if state.urgency == "same_day":
+                return "ታካሚው ዛሬ መታየት እንዳለበት ይንገሩ፤ መተንፈስ ከባድ ከሆነ፣ መመገብ ከቀነሰ፣ ትኩሳት ከፍ ካለ ወይም አዲስ የአደጋ ምልክቶች ከታዩ ወዲያውኑ እንዲመለሱ ያሳስቡ።"
+            if state.missing_questions:
+                return "የቤት እንክብካቤ የመጨረሻ ምክር ከመስጠት በፊት ጥቂት ተጨማሪ መረጃዎች እንዳስፈለጉ ያብራሩ።"
+            return "የቤት እንክብካቤን እንዲቀጥሉ፣ ፈሳሽና ምግብ እንደሚቻለው እንዲሰጡ፣ የአደጋ ምልክቶች ከታዩ ወይም ምልክቶቹ ከባድ ከሆኑ ፈጥነው እንዲመለሱ ይንገሩ።"
         if state.urgency == "emergency":
             return "Tell the caregiver to go now, keep the patient warm and observed, and return immediately if breathing worsens, feeding stops, convulsions happen, or consciousness drops."
         if state.urgency == "same_day":
