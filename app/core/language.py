@@ -31,7 +31,8 @@ SYMPTOM_EN_ALIASES = {
 }
 
 def detect_language(text: str, requested: str = "auto") -> str:
-    if requested in {"en", "am"}:
+    requested = (requested or "auto").strip().lower()
+    if requested and requested != "auto":
         return requested
     return "am" if AMHARIC_RE.search(text) else "en"
 

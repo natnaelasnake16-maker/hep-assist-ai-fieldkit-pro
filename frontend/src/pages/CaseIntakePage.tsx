@@ -229,8 +229,8 @@ export default function CaseIntakePage({ setActiveTab }: CaseIntakePageProps) {
             <UserPlus className="w-5 h-5 text-blue-600" />
             <span>Structured Client Intake Workbook</span>
           </h2>
-          <p className="text-xs text-slate-500 font-sans mt-0.5">
-            Register diagnostic coordinates to unlock immediate localized RAG validation.
+          <p className="text-sm text-slate-500 font-sans mt-1 leading-relaxed max-w-2xl">
+            Capture the minimum safe intake data first, then let the protocol engine route urgency and escalation.
           </p>
         </div>
         
@@ -242,7 +242,7 @@ export default function CaseIntakePage({ setActiveTab }: CaseIntakePageProps) {
         )}
       </div>
 
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-6 font-sans">
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-8 font-sans">
         
         {/* LEFT & CENTER: INPUT WORKBOOK SHIELD (2 Columns space) */}
         <div className="lg:col-span-2 space-y-6">
@@ -257,7 +257,7 @@ export default function CaseIntakePage({ setActiveTab }: CaseIntakePageProps) {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-600">Patient Age</label>
+                <label className="text-sm font-bold text-slate-700">Patient age</label>
                 <div className="flex gap-1.5">
                   <input
                     type="number"
@@ -323,7 +323,7 @@ export default function CaseIntakePage({ setActiveTab }: CaseIntakePageProps) {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-slate-100 pt-4">
               
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-600">Administrative Region</label>
+                <label className="text-sm font-bold text-slate-700">Administrative region</label>
                 <select
                   value={region}
                   onChange={e => setRegion(e.target.value)}
@@ -587,7 +587,7 @@ export default function CaseIntakePage({ setActiveTab }: CaseIntakePageProps) {
                     className="w-5 h-5 accent-blue-600 border-slate-305 rounded-xl mt-0.5 shrink-0"
                   />
                   <label htmlFor="headache-preg-check" className="text-xs cursor-pointer select-none">
-                    <span className="block font-bold text-slate-800">Severe Headache (ပြင်းထን ራስ ምታት)</span>
+                    <span className="block font-bold text-slate-800">Severe headache (ከባድ ራስ ምታት)</span>
                     <span className="text-[10px] text-slate-400 mt-0.5 block">Persistent, worsening frontal throbbing headache (pre-eclampsia flag).</span>
                   </label>
                 </div>
@@ -643,7 +643,7 @@ export default function CaseIntakePage({ setActiveTab }: CaseIntakePageProps) {
             </div>
 
             <p className="text-xs text-slate-500 font-sans leading-relaxed">
-              Calculates priority clinical flags automatically in the background using on-device medical logic checks.
+              Calculates priority clinical flags in real time from the structured intake using protocol-based logic before escalation.
             </p>
 
             {warnings.length === 0 ? (
@@ -676,10 +676,10 @@ export default function CaseIntakePage({ setActiveTab }: CaseIntakePageProps) {
             <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2 text-xs font-sans text-slate-600 line-clamp-4">
               <div className="flex gap-1.5 font-bold text-slate-800 tracking-tight items-center">
                 <Info className="w-4 h-4 text-blue-500 shrink-0" />
-                <span>Standard MOH Referral guidelines Info</span>
+                <span>MOH referral note</span>
               </div>
               <p className="leading-relaxed text-[11px] text-slate-500">
-                Children presenting convulsive episodes, chest retraction, or lethargic symptoms are IMNCI referral category 1. These require supportive pediatric therapy and immediate hospital dispatch.
+                Children with convulsions, chest indrawing, inability to drink, or lethargy should be treated as urgent IMNCI referral cases and handed off immediately.
               </p>
             </div>
 

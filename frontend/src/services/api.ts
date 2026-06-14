@@ -186,7 +186,7 @@ function normalizeAssistantResponse(data: any): AssistantResponse {
     safetyRouteRequired: Boolean(data.safetyRouteRequired ?? data.review_required),
     piiRedacted: Boolean(data.piiRedacted ?? data?.safety?.pii_redacted),
     responseSource: data.responseSource || mapResponseSource(data.model_provider),
-    responseLanguage: data.responseLanguage || (data.language === 'am' ? 'am' : 'en'),
+    responseLanguage: data.responseLanguage || data.language || 'en',
     triageSummary: data.triageSummary || data.triage_summary || '',
     caregiverAdvice: data.caregiverAdvice || data.caregiver_advice || '',
     protocolNote: data.protocolNote || data.protocol_note || '',

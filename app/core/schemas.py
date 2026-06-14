@@ -2,7 +2,6 @@ from __future__ import annotations
 from typing import Any, Dict, List, Literal, Optional
 from pydantic import BaseModel, Field
 
-Language = Literal["auto", "en", "am"]
 Urgency = Literal["routine", "same_day", "emergency"]
 
 class CaseContext(BaseModel):
@@ -18,7 +17,7 @@ class CaseContext(BaseModel):
 
 class ChatRequest(BaseModel):
     message: str = Field(min_length=1, max_length=5000)
-    language: Language = "auto"
+    language: str = Field(default="auto", min_length=2, max_length=16)
     case_context: Optional[CaseContext] = None
     user_role: str = "HEW"
     session_id: Optional[str] = None

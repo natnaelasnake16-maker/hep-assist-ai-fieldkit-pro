@@ -99,8 +99,9 @@ class OllamaLLM(BaseLLMProvider):
                 f"Evidence:\n{chr(10).join(evidence_lines) or '- local protocol packet'}\n"
                 "Write: short triage summary, immediate actions, caregiver advice, and referral warning if needed."
             )
+        target_language = "plain English" if language == "en" else f"the requested language ({language})"
         return (
-            "Respond for a trained Health Extension Worker in plain English. "
+            f"Respond for a trained Health Extension Worker in {target_language}. "
             "Do not invent diagnoses. Keep it under 160 words and action-first. "
             f"Urgency: {urgency}.\n"
             f"Graph findings:\n{chr(10).join(finding_lines) or '- none'}\n"

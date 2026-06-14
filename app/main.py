@@ -89,7 +89,7 @@ def _frontend_response(resp: Dict[str, Any]) -> Dict[str, Any]:
         'safetyRouteRequired': bool(resp.get('review_required')),
         'piiRedacted': bool(resp.get('safety', {}).get('pii_redacted')),
         'responseSource': 'LLM_Ollama' if str(resp.get('model_provider', '')).startswith('ollama') else ('Offline_Rules' if resp.get('model_provider') == 'offline_rules' else 'LLM_Cloud_Grounded'),
-        'responseLanguage': 'am' if resp.get('language') == 'am' else 'en',
+        'responseLanguage': resp.get('language', 'en'),
         'triageSummary': resp.get('triage_summary', ''),
         'caregiverAdvice': resp.get('caregiver_advice', ''),
         'protocolNote': resp.get('protocol_note', ''),

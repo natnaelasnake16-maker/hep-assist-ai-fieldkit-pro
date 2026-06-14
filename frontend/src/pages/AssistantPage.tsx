@@ -44,11 +44,11 @@ import {
 } from 'lucide-react';
 
 const QUICK_CHIPS = [
-  { label: 'Fever (ትኩሳት)', query: 'Child with high fever and chills' },
-  { label: 'Fast Breathing (ሳል/ፈጣን ትንፋሽ)', query: 'Under-5 child with fast breathing rate and persistent dry cough' },
-  { label: 'Pregnancy concern (እርግዝና)', query: 'Third trimester bleeding and severe headache concerns' },
-  { label: 'Newborn danger signs (ጨቅላ ህፃን)', query: '10 day old infant with severe cold lethargy' },
-  { label: 'Diarrhea (ተቅማጥ)', query: 'Toddler with active watery diarrhea and sunken eyes' }
+  { label: 'Fever / ትኩሳት', query: 'Child with high fever and chills' },
+  { label: 'Fast breathing / ፈጣን ትንፋሽ', query: 'Under-5 child with fast breathing rate and persistent dry cough' },
+  { label: 'Pregnancy concern / እርግዝና', query: 'Third trimester bleeding and severe headache concerns' },
+  { label: 'Newborn danger signs / ጨቅላ ህፃን', query: '10 day old infant with severe cold lethargy' },
+  { label: 'Diarrhea / ተቅማጥ', query: 'Toddler with active watery diarrhea and sunken eyes' }
 ];
 
 export default function AssistantPage() {
@@ -196,13 +196,13 @@ export default function AssistantPage() {
       <div className="flex-1 flex flex-col min-h-0 p-4 lg:p-6 space-y-6 overflow-y-auto">
         
         {/* Active Patients Horizontal Slider */}
-        <div className="space-y-2">
-          <div className="flex justify-between items-center select-none">
-            <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 font-sans">
+        <div className="space-y-3">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between select-none">
+            <h2 className="text-sm font-bold text-slate-700 uppercase tracking-[0.18em] flex items-center gap-1.5 font-sans">
               <ClipboardCheck className="w-4 h-4 text-slate-400" />
-              <span>Active Frontline Cases</span>
+              <span>Active frontline cases</span>
             </h2>
-            <span className="text-[10px] bg-slate-200 text-slate-800 font-bold px-2 py-0.5 rounded-full font-mono">
+            <span className="text-[11px] bg-slate-200 text-slate-800 font-bold px-2.5 py-1 rounded-full font-mono w-fit">
               Count: {cases.length}
             </span>
           </div>
@@ -212,7 +212,7 @@ export default function AssistantPage() {
               No clinical cases entered yet. Please complete a <strong className="text-blue-600 font-bold cursor-pointer">Structured Patient Intake</strong> to generate a draft.
             </div>
           ) : (
-            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin select-none">
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-thin select-none snap-x snap-mandatory">
               {cases.map(c => {
                 const isSelected = selectedCase?.id === c.id;
                 const hasDanger = c.dangerSignsDetected.length > 0;
@@ -221,7 +221,7 @@ export default function AssistantPage() {
                   <button
                     key={c.id}
                     onClick={() => handleSelectCase(c)}
-                    className={`shrink-0 p-3.5 rounded-2xl text-left transition-all duration-300 font-sans min-w-[210px] cursor-pointer relative shadow-2xs ${
+                    className={`snap-start shrink-0 p-4 rounded-2xl text-left transition-all duration-300 font-sans min-w-[240px] sm:min-w-[260px] cursor-pointer relative shadow-2xs ${
                       isSelected 
                         ? 'bg-[#ecf3fa] border-2 border-blue-600 text-[#1e293b] scale-[1.01]' 
                         : 'bg-white border border-slate-200/90 hover:border-blue-400 hover:shadow-xs text-slate-700'
@@ -275,7 +275,7 @@ export default function AssistantPage() {
           <div className="bg-slate-50 border-b border-slate-100 p-4 shrink-0 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-blue-600 animate-pulse" />
-              <h3 className="font-bold text-slate-800 text-[13px] uppercase tracking-wider">Clinical Advisor Evidence Workspace</h3>
+              <h3 className="font-bold text-slate-800 text-sm uppercase tracking-[0.18em]">Clinical advisor workspace</h3>
             </div>
             
             {/* Display model names only to AI Engineers / Admins */}
@@ -332,7 +332,7 @@ export default function AssistantPage() {
                     <div className="rounded-2xl border border-teal-200 bg-teal-50/80 p-4 shadow-3xs">
                       <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-teal-800">
                         <User className="w-4 h-4" />
-                        <span>What To Tell The Caregiver</span>
+                        <span>Caregiver script</span>
                       </div>
                       <p className="mt-2 text-sm font-semibold text-slate-800 leading-relaxed">{response.caregiverAdvice}</p>
                     </div>
@@ -478,7 +478,7 @@ export default function AssistantPage() {
                 {!feedbackSubmitted ? (
                   <form onSubmit={handleFeedbackSubmit} className="mt-8 border-t border-slate-150 pt-5 space-y-3.5">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                      <p className="text-xs font-bold text-slate-600 font-sans">Rate the clincal accuracy in active field use:</p>
+                      <p className="text-xs font-bold text-slate-600 font-sans">Rate the clinical accuracy in active field use:</p>
                       
                       {/* Rating selection */}
                       <div className="flex items-center gap-1.5 select-none">
@@ -540,7 +540,7 @@ export default function AssistantPage() {
 
           {/* Form input bar */}
           <div className="p-4 bg-slate-50 border-t border-slate-200/70 shrink-0">
-            <form onSubmit={handleCustomQuerySubmit} className="flex gap-2">
+            <form onSubmit={handleCustomQuerySubmit} className="flex flex-col sm:flex-row gap-2.5">
               <button
                 type="button"
                 onClick={handleVoiceSimulate}
@@ -582,7 +582,7 @@ export default function AssistantPage() {
       </div>
 
       {/* RIGHT SIDEBAR PANEL: LIVE STRUCTURED CASE INDICATOR */}
-      <div className="w-full lg:w-80 p-5 lg:p-6 shrink-0 bg-[#f8fafc] border-t lg:border-t-0 lg:border-l border-slate-300 space-y-6 overflow-y-auto shadow-xs">
+      <div className="w-full lg:w-[22rem] p-5 lg:p-6 shrink-0 bg-[#f8fafc] border-t lg:border-t-0 lg:border-l border-slate-300 space-y-6 overflow-y-auto shadow-xs">
         <h3 className="font-sans font-bold text-slate-855 text-slate-900 text-xs uppercase tracking-widest border-b border-slate-300 pb-2">
           Patient Demographics
         </h3>
