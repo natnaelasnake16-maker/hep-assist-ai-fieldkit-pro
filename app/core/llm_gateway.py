@@ -24,15 +24,50 @@ class OfflineRuleLLM(BaseLLMProvider):
         danger_lines = [g.reason for g in graph_findings if g.urgency == "emergency"]
         if language == "am":
             urgency_label = amharic_label_for_urgency(urgency)
-            action_text = "\n".join([f"- {a}" for a in actions]) if actions else "- ተጨማሪ መረጃ ይሰብስቡ።"
-            danger_text = "\n".join([f"- {d}" for d in danger_lines]) if danger_lines else "- አጠቃላይ የአደጋ ምልክቶችን ይፈትሹ።"
+            signal_map = {
+                "convulsion": "ንቅጥቅጥ አለ።",
+                "lethargy": "ንቃት መቀነስ ወይም መፍዘዝ አለ።",
+                "unable_to_drink": "መጠጣት ወይም ጡት መጥባት አይችልም።",
+                "vomiting_everything": "ሁሉንም እየተወከ ነው።",
+                "chest_indrawing": "የደረት መጎዝጎዝ አለ።",
+                "pregnancy_bleeding": "በእርግዝና ወቅት ደም መፍሰስ አለ።",
+                "pregnancy_severe_headache": "በእርግዝና ጊዜ ከባድ ራስ ምታት አለ።",
+                "reduced_fetal_movement": "የፅንስ እንቅስቃሴ ቀንሷል።",
+                "severe_dehydration": "ከባድ የውሃ እጥረት ምልክቶች አሉ።",
+                "fast_breathing_child": "ፈጣን ትንፋሽ አለ፣ የሳንባ ምች አደጋ ሊኖር ይችላል።",
+                "young_infant_fever": "በትንሽ ሕፃን ውስጥ ትኩሳት ከፍተኛ አደጋ ነው።",
+                "fever_child": "ትኩሳት ዛሬ የአደጋ ምልክቶች ግምገማ ይፈልጋል።",
+                "rr_fast_2_11m": "የመተንፈሻ መጠን ለእድሜው ፈጣን ነው።",
+                "rr_fast_12_59m": "የመተንፈሻ መጠን ለእድሜው ፈጣን ነው።",
+            }
+            danger_lines = [signal_map.get(g.signal, g.reason) for g in graph_findings[:4]] or ["አጠቃላይ የአደጋ ምልክቶችን ይፈትሹ።"]
+            if urgency == "emergency":
+                action_lines = [
+                    "- ታካሚውን ወዲያውኑ ሪፈር ያድርጉ።",
+                    "- ሱፐርቫይዘር ወይም የሪፈራል ተቋምን ወዲያውኑ ያሳውቁ።",
+                    "- የአካባቢ ፕሮቶኮል መሠረት የቅድመ ሪፈራል እርምጃ ይጀምሩ።",
+                ]
+            elif urgency == "same_day":
+                action_lines = [
+                    "- በዛሬው ቀን ግምገማና አስተዳደር ያድርጉ።",
+                    "- የአደጋ ምልክቶችን፣ የመተንፈሻ መጠንን እና የሙቀት መጠንን ይፈትሹ።",
+                    "- እንደ አካባቢ ፕሮቶኮል ሕክምና ወይም ሪፈራል ይወስኑ።",
+                ]
+            else:
+                action_lines = [
+                    "- የቤት እንክብካቤ ምክር ይስጡ።",
+                    "- ፈሳሽና አመጋገብ እንዲቀጥል ያበረታቱ።",
+                    "- የአደጋ ምልክቶች ከታዩ ፈጥነው እንዲመለሱ ይንገሩ።",
+                ]
+            danger_text = "\n".join([f"- {d}" for d in danger_lines])
+            action_text = "\n".join(action_lines)
             return LLMResult(
                 text=(
                     f"**የክብደት ደረጃ: {urgency_label}**\n\n"
-                    f"**የሚመከሩ እርምጃዎች**\n{action_text}\n\n"
+                    f"**አሁን የሚደረጉ እርምጃዎች**\n{action_text}\n\n"
                     f"**የአደጋ ምልክቶች**\n{danger_text}\n\n"
                     f"**የፕሮቶኮል ማስረጃ**: {cite_titles}\n\n"
-                    "ይህ መሳሪያ የሰለጠኑ የጤና ባለሙያዎችን ይደግፋል፤ የአካባቢ ፕሮቶኮልን እና የሱፐርቫይዘር መመሪያን ይከተሉ።"
+                    "ይህ መሳሪያ ለሰለጠኑ የጤና ባለሙያዎች የውሳኔ ድጋፍ ነው፤ የአካባቢ ፕሮቶኮልን እና የሱፐርቫይዘር መመሪያን ይከተሉ።"
                 ),
                 provider=self.name,
             )
@@ -52,6 +87,8 @@ class OfflineRuleLLM(BaseLLMProvider):
 class OllamaLLM(BaseLLMProvider):
     name = "ollama"
     def generate(self, *, prompt: str, language: str, urgency: str, actions: List[str], evidence: List[EvidenceChunk], graph_findings: List[GraphFinding]) -> LLMResult:
+        if language == "am":
+            return OfflineRuleLLM().generate(prompt=prompt, language=language, urgency=urgency, actions=actions, evidence=evidence, graph_findings=graph_findings)
         compact_prompt = self._build_compact_prompt(
             language=language,
             urgency=urgency,
