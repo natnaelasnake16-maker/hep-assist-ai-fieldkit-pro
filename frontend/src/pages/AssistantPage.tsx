@@ -317,6 +317,63 @@ export default function AssistantPage() {
                   </p>
                 </div>
 
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
+                  {response.triageSummary && (
+                    <div className="rounded-2xl border border-blue-200 bg-blue-50/80 p-4 shadow-3xs">
+                      <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-blue-800">
+                        <ClipboardCheck className="w-4 h-4" />
+                        <span>Field Triage Summary</span>
+                      </div>
+                      <p className="mt-2 text-sm font-semibold text-slate-800 leading-relaxed">{response.triageSummary}</p>
+                    </div>
+                  )}
+
+                  {response.caregiverAdvice && (
+                    <div className="rounded-2xl border border-teal-200 bg-teal-50/80 p-4 shadow-3xs">
+                      <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-teal-800">
+                        <User className="w-4 h-4" />
+                        <span>What To Tell The Caregiver</span>
+                      </div>
+                      <p className="mt-2 text-sm font-semibold text-slate-800 leading-relaxed">{response.caregiverAdvice}</p>
+                    </div>
+                  )}
+                </div>
+
+                {(response.protocolNote || response.protocolVersion || response.safetyRouteRequired) && (
+                  <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 shadow-3xs space-y-2">
+                    <div className="flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-amber-900">
+                      <BookOpen className="w-4 h-4" />
+                      <span>Protocol Guardrails</span>
+                      {response.protocolVersion && (
+                        <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-mono text-amber-800 border border-amber-200">
+                          {response.protocolVersion}
+                        </span>
+                      )}
+                      {response.safetyRouteRequired && (
+                        <span className="rounded-full bg-rose-600 px-2 py-0.5 text-[10px] font-bold text-white">
+                          Supervisor Review Required
+                        </span>
+                      )}
+                    </div>
+                    {response.protocolNote && (
+                      <p className="text-xs md:text-sm font-medium text-slate-800 leading-relaxed">{response.protocolNote}</p>
+                    )}
+                    {response.rulesApplied.length > 0 && (
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Rules Applied</p>
+                        <ul className="space-y-1.5">
+                          {response.rulesApplied.slice(0, 4).map((rule, idx) => (
+                            <li key={idx} className="text-xs text-slate-700 font-medium flex gap-2">
+                              <Scale className="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5" />
+                              <span>{rule}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* 2. Recommended Action Items (Clinical Interventions list) */}
                 {response.recommendedActions.length > 0 && (
                   <div className="space-y-2.5">

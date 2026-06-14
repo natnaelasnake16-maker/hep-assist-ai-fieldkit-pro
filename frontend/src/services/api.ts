@@ -187,6 +187,12 @@ function normalizeAssistantResponse(data: any): AssistantResponse {
     piiRedacted: Boolean(data.piiRedacted ?? data?.safety?.pii_redacted),
     responseSource: data.responseSource || mapResponseSource(data.model_provider),
     responseLanguage: data.responseLanguage || (data.language === 'am' ? 'am' : 'en'),
+    triageSummary: data.triageSummary || data.triage_summary || '',
+    caregiverAdvice: data.caregiverAdvice || data.caregiver_advice || '',
+    protocolNote: data.protocolNote || data.protocol_note || '',
+    protocolVersion: data.protocolVersion || data.protocol_version || 'demo-protocol-v1',
+    rulesApplied: data.rulesApplied || data.rules_applied || [],
+    llmSummaryUsed: Boolean(data.llmSummaryUsed ?? data.llm_summary_used),
   };
 }
 

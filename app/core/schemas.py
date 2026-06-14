@@ -59,6 +59,12 @@ class ChatResponse(BaseModel):
     latency_ms: int
     review_required: bool
     sanitized_message: str
+    triage_summary: str = ""
+    caregiver_advice: str = ""
+    protocol_note: str = ""
+    protocol_version: str = "demo-protocol-v1"
+    rules_applied: List[str] = Field(default_factory=list)
+    llm_summary_used: bool = False
 
 class FeedbackRequest(BaseModel):
     session_id: Optional[str] = None

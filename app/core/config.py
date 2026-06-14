@@ -17,7 +17,7 @@ class Settings:
     app_env: str = os.getenv("APP_ENV", "development")
     ai_provider: str = os.getenv("AI_PROVIDER", "ollama")
     ollama_base_url: str = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-    ollama_model: str = os.getenv("OLLAMA_MODEL", "qwen2.5:1.5b")
+    ollama_model: str = os.getenv("OLLAMA_MODEL", "minimax-m3:cloud")
     openai_compatible_base_url: str = os.getenv("OPENAI_COMPATIBLE_BASE_URL", "http://localhost:8001/v1")
     openai_compatible_api_key: str = os.getenv("OPENAI_COMPATIBLE_API_KEY", "change-me")
     openai_compatible_model: str = os.getenv("OPENAI_COMPATIBLE_MODEL", "local-health-assistant")

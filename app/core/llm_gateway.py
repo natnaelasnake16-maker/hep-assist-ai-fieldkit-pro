@@ -52,11 +52,26 @@ class OfflineRuleLLM(BaseLLMProvider):
 class OllamaLLM(BaseLLMProvider):
     name = "ollama"
     def generate(self, *, prompt: str, language: str, urgency: str, actions: List[str], evidence: List[EvidenceChunk], graph_findings: List[GraphFinding]) -> LLMResult:
+        compact_prompt = self._build_compact_prompt(
+            language=language,
+            urgency=urgency,
+            actions=actions,
+            evidence=evidence,
+            graph_findings=graph_findings,
+        )
         try:
-            with httpx.Client(timeout=20) as client:
+            with httpx.Client(timeout=45) as client:
                 response = client.post(
                     f"{settings.ollama_base_url.rstrip('/')}/api/generate",
-                    json={"model": settings.ollama_model, "prompt": prompt, "stream": False},
+                    json={
+                        "model": settings.ollama_model,
+                        "prompt": compact_prompt,
+                        "stream": False,
+                        "options": {
+                            "temperature": 0.1,
+                            "num_predict": min(settings.max_response_tokens, 220),
+                        },
+                    },
                 )
                 response.raise_for_status()
                 data = response.json()
@@ -68,6 +83,31 @@ class OllamaLLM(BaseLLMProvider):
             fallback.text = f"_Ollama unavailable, used offline safety mode. Reason: {type(exc).__name__}_\n\n" + fallback.text
             return fallback
         return OfflineRuleLLM().generate(prompt=prompt, language=language, urgency=urgency, actions=actions, evidence=evidence, graph_findings=graph_findings)
+
+    @staticmethod
+    def _build_compact_prompt(*, language: str, urgency: str, actions: List[str], evidence: List[EvidenceChunk], graph_findings: List[GraphFinding]) -> str:
+        evidence_lines = [f"- {e.title}: {e.text[:180].replace(chr(10), ' ')}" for e in evidence[:2]]
+        finding_lines = [f"- {g.signal}: {g.reason}" for g in graph_findings[:4]]
+        action_lines = [f"- {a}" for a in actions[:4]]
+        if language == "am":
+            return (
+                "Respond in simple Amharic for a trained Health Extension Worker. "
+                "Do not invent diagnosis. Keep it short and action-first. "
+                f"Urgency: {urgency}.\n"
+                f"Graph findings:\n{chr(10).join(finding_lines) or '- none'}\n"
+                f"Actions:\n{chr(10).join(action_lines) or '- collect missing information'}\n"
+                f"Evidence:\n{chr(10).join(evidence_lines) or '- local protocol packet'}\n"
+                "Write: short triage summary, immediate actions, caregiver advice, and referral warning if needed."
+            )
+        return (
+            "Respond for a trained Health Extension Worker in plain English. "
+            "Do not invent diagnoses. Keep it under 160 words and action-first. "
+            f"Urgency: {urgency}.\n"
+            f"Graph findings:\n{chr(10).join(finding_lines) or '- none'}\n"
+            f"Actions:\n{chr(10).join(action_lines) or '- collect missing information'}\n"
+            f"Evidence:\n{chr(10).join(evidence_lines) or '- local protocol packet'}\n"
+            "Write: short triage summary, immediate actions, caregiver advice, and referral warning if needed."
+        )
 
 class OpenAICompatibleLLM(BaseLLMProvider):
     name = "openai_compatible"

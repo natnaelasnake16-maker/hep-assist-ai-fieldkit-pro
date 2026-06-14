@@ -5,6 +5,13 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
 from typing import Any, Dict
+
+try:
+    import multipart  # type: ignore  # noqa: F401
+    MULTIPART_AVAILABLE = True
+except Exception:
+    MULTIPART_AVAILABLE = False
+
 from app.core.config import settings
 from app.core.schemas import ChatRequest, ChatResponse, FeedbackRequest, ProtocolSearchResponse, EvaluationResult, FieldPacket
 from app.core.storage import (
@@ -83,6 +90,12 @@ def _frontend_response(resp: Dict[str, Any]) -> Dict[str, Any]:
         'piiRedacted': bool(resp.get('safety', {}).get('pii_redacted')),
         'responseSource': 'LLM_Ollama' if str(resp.get('model_provider', '')).startswith('ollama') else ('Offline_Rules' if resp.get('model_provider') == 'offline_rules' else 'LLM_Cloud_Grounded'),
         'responseLanguage': 'am' if resp.get('language') == 'am' else 'en',
+        'triageSummary': resp.get('triage_summary', ''),
+        'caregiverAdvice': resp.get('caregiver_advice', ''),
+        'protocolNote': resp.get('protocol_note', ''),
+        'protocolVersion': resp.get('protocol_version', 'demo-protocol-v1'),
+        'rulesApplied': resp.get('rules_applied', []),
+        'llmSummaryUsed': bool(resp.get('llm_summary_used', False)),
     }
 
 
@@ -342,10 +355,20 @@ def offline_packet():
     )
 
 
-@app.post("/api/voice/transcribe")
-async def transcribe_voice(file: UploadFile = File(...), language: str = "auto"):
-    await file.read()
-    return voice_service.transcribe_placeholder(language)
+if MULTIPART_AVAILABLE:
+    @app.post("/api/voice/transcribe")
+    async def transcribe_voice(file: UploadFile = File(...), language: str = "auto"):
+        await file.read()
+        return voice_service.transcribe_placeholder(language)
+else:
+    @app.post("/api/voice/transcribe")
+    async def transcribe_voice_disabled(language: str = "auto"):
+        return {
+            "transcript": "",
+            "language": language,
+            "engine": "disabled",
+            "note": "python-multipart is not installed; voice upload endpoint is disabled in this environment.",
+        }
 
 
 @app.post("/api/voice/tts-preview")

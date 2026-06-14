@@ -74,6 +74,12 @@ export interface AssistantResponse {
   responseSource: 'LLM_Ollama' | 'LLM_Cloud_Grounded' | 'Offline_Rules' | 'Fallback';
   responseLanguage: 'en' | 'am';
   textContent: string;
+  triageSummary: string;
+  caregiverAdvice: string;
+  protocolNote: string;
+  protocolVersion: string;
+  rulesApplied: string[];
+  llmSummaryUsed: boolean;
 }
 
 export interface ReviewItem {

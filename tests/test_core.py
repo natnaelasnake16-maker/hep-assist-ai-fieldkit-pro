@@ -25,6 +25,16 @@ def test_graph_rag_pregnancy_bleeding():
     assert clinical_graph.highest_urgency(findings) == "emergency"
 
 
+def test_graph_rag_vomiting_everything_is_emergency():
+    findings = clinical_graph.evaluate("child is vomiting everything", CaseContext(age_months=24, symptoms=["vomiting everything"]))
+    assert clinical_graph.highest_urgency(findings) == "emergency"
+
+
+def test_graph_rag_pregnancy_headache_same_day():
+    findings = clinical_graph.evaluate("pregnant woman with severe headache", CaseContext(age_months=240, pregnancy_status="pregnant", symptoms=["severe headache"]))
+    assert clinical_graph.highest_urgency(findings) == "same_day"
+
+
 def test_vector_rag_returns_evidence():
     results = vector_rag.search("pneumonia fast breathing child")
     assert results

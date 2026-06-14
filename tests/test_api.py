@@ -20,6 +20,9 @@ def test_chat_same_day():
     data = res.json()
     assert data['urgency'] == 'same_day'
     assert data['evidence']
+    assert data['triage_summary']
+    assert data['caregiver_advice']
+    assert data['protocol_version'] == 'demo-protocol-v1'
 
 
 def test_chat_emergency_and_redaction():
@@ -33,6 +36,8 @@ def test_chat_emergency_and_redaction():
     assert data['urgency'] == 'emergency'
     assert data['safety']['pii_redacted'] is True
     assert data['review_required'] is True
+    assert 'urgent referral' in data['answer'].lower() or 'refer urgently' in data['answer'].lower()
+    assert data['rules_applied']
 
 
 def test_evaluate():
